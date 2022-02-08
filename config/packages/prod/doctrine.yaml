@@ -7,6 +7,16 @@ doctrine:
         result_cache_driver:
             type: pool
             pool: doctrine.result_cache_pool
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver: %database_driver%
+                dbname: %database_name%
+                user: %database_user%
+                host: %database_host%
+                password: %database_password%
+                unix_socket: /tmp/mysql.sock
 
 framework:
     cache:
