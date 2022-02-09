@@ -21,7 +21,7 @@ class StripeController extends AbstractController
     {
         $product_for_stripe = [];
         //$YOUR_DOMAIN = 'http://127.0.0.1:8000';
-        $YOUR_DOMAIN = 'https://floating-savannah-98678.herokuapp.com/';
+        $YOUR_DOMAIN = 'https://floating-savannah-98678.herokuapp.com';
 
         $order=$entityManager->getRepository(Order::class)->findOneByReference($reference);
 
