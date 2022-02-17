@@ -60,7 +60,7 @@ class ProductController extends AbstractController
             'version'  => '2006-03-01',
             'region'   => 'eu-west-3',
         ]);
-        $bucket = getenv('S3_BUCKET')?: die('No "S3_BUCKET" config var in found in env!');
+        $bucket = 'boutique-fr-ng';
 //Get a command to GetObject
         $cmd = $s3->getCommand('GetObject', [
             'Bucket' => $bucket,
