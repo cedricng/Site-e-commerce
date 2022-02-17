@@ -58,11 +58,7 @@ class Product
      */
     private $isBest;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Document::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $Document;
+
 
 
     public function getId(): ?int
@@ -166,15 +162,5 @@ class Product
         return $this;
     }
 
-    public function getDocument(): ?Document
-    {
-        return $this->Document;
-    }
 
-    public function setDocument(?Document $Document): self
-    {
-        $this->Document = $Document;
-
-        return $this;
-    }
 }
