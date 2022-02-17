@@ -59,6 +59,10 @@ class ProductController extends AbstractController
         $s3 = new S3Client([
             'version'  => '2006-03-01',
             'region'   => 'eu-west-3',
+            'credentials' => array(
+                'key' => 'AKIAYGMLEEYLFRJ6HWOE',
+                'secret'  => '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',
+            )
         ]);
         $bucket = 'boutique-fr-ng';
 //Get a command to GetObject
