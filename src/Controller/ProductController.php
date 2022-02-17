@@ -79,11 +79,8 @@ class ProductController extends AbstractController
         ]);
     }
 
-    /**
-     * @param $product
-     * @param $bucket
-     */
-    public function getS3Url($product, $bucket):Object_
+
+    public function getS3Url($product, $bucket)
     {
         $fileKey = 'images/' . $product->getSlug() . '.jpg';
 
