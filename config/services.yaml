@@ -22,3 +22,38 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    ct_file_store.s3:
+        class: Aws\S3\S3Client
+        factory: [ Aws\S3\S3Client, 'factory' ]
+        arguments:
+            - version: '2006-03-01' #(to be found in AWS console depending on your bucket region and version)
+              region: 'eu-west-3'
+              credentials:
+                  key: '%env(AWS_KEY)%'
+                  secret: '%env(AWS_SECRET_KEY)%'
+
+knp_gaufrette:
+    stream_wrapper: ~
+    adapters:
+        document_adapter:
+            aws_s3:
+                service_id: ct_file_store.s3
+                bucket_name: '%env(AWS_BUCKET_NAME)%'
+                detect_content_type: true
+                options:
+                    create: true
+                    directory: document
+    filesystems:
+        document_fs:
+            adapter:    document_adapter
+
+vich_uploader:
+    db_driver: orm
+    storage: gaufrette
+    mappings:
+        document:
+            inject_on_load: true
+            uri_prefix: "%env(AWS_BASE_URL)%/%env(AWS_BUCKET_NAME)%/document"
+            upload_destination: document_fs
+            delete_on_update:   false
+            delete_on_remove:   false

@@ -42,6 +42,11 @@ class Header
      */
     private $illustration;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Document::class)
+     */
+    private $Document;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +108,18 @@ class Header
     public function setIllustration(string $illustration): self
     {
         $this->illustration = $illustration;
+
+        return $this;
+    }
+
+    public function getDocument(): ?Document
+    {
+        return $this->Document;
+    }
+
+    public function setDocument(?Document $Document): self
+    {
+        $this->Document = $Document;
 
         return $this;
     }

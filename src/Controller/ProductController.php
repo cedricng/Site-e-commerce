@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Aws\S3\S3Client;
+
 class ProductController extends AbstractController
 {
 
@@ -53,8 +55,24 @@ class ProductController extends AbstractController
         if(!$product){
             return $this->redirectToRoute('products');
         }
+        $fileKey=$product->slug.'.jpg';
+        $s3 = new S3Client([
+            'version'  => '2006-03-01',
+            'region'   => 'eu-west-3',
+        ]);
+        $bucket = getenv('S3_BUCKET')?: die('No "S3_BUCKET" config var in found in env!');
+//Get a command to GetObject
+        $cmd = $s3->getCommand('GetObject', [
+            'Bucket' => $bucket,
+            'Key'    => $fileKey
+        ]);
 
+//The period of availability
+        $request = $s3->createPresignedRequest($cmd, '+30 minutes');
 
+//Get the pre-signed URL
+        $signedUrl = (string) $request->getUri();
+        $product->s3Url=$signedUrl;
         return $this->render('product/show.html.twig',[
             'product'=>$product,
             'products'=> $products
