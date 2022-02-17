@@ -55,7 +55,7 @@ class ProductController extends AbstractController
         if(!$product){
             return $this->redirectToRoute('products');
         }
-        $fileKey=$product->slug.'.jpg';
+        $fileKey=$product->getSlug().'.jpg';
         $s3 = new S3Client([
             'version'  => '2006-03-01',
             'region'   => 'eu-west-3',
