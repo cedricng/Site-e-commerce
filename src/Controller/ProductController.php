@@ -6,6 +6,7 @@ use App\Classe\Search;
 use App\Entity\Product;
 use App\Form\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Node\Expr\Cast\Object_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -71,7 +72,7 @@ class ProductController extends AbstractController
         if(!$product){
             return $this->redirectToRoute('products');
         }
-        $product=$this->getS3Url($product, $bucket, $request);
+        $product=$this->getS3Url($product, $this->bucket);
         return $this->render('product/show.html.twig',[
             'product'=>$product,
             'products'=> $products
@@ -82,7 +83,7 @@ class ProductController extends AbstractController
      * @param $product
      * @param $bucket
      */
-    public function getS3Url($product, $bucket):
+    public function getS3Url($product, $bucket):Object_
     {
         $fileKey = 'images/' . $product->getSlug() . '.jpg';
 
