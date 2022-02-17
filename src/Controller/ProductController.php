@@ -76,7 +76,7 @@ class ProductController extends AbstractController
 
 //Get the pre-signed URL
         $signedUrl = (string) $request->getUri();
-        dd($signedUrl);
+
         $product->s3Url=$signedUrl;
         return $this->render('product/show.html.twig',[
             'product'=>$product,
