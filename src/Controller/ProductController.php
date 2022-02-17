@@ -17,9 +17,20 @@ class ProductController extends AbstractController
 {
 
     private $entityManager;
+    private $s3;
+    private $bucket;
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager=$entityManager;
+        $this->s3 = new S3Client([
+            'version'  => '2006-03-01',
+            'region'   => 'eu-west-3',
+            'credentials' => array(
+                'key' => 'AKIAYGMLEEYLJBG6QGGC',
+                'secret'  => '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',
+            )
+        ]);
+        $this->bucket = 'boutique-fr-ng';
     }
     /**
      * @Route("/nos-produits", name="products")
@@ -38,6 +49,9 @@ class ProductController extends AbstractController
              $products=$this->entityManager->getRepository(Product::class)->findAll();
 
          }
+         foreach ($products as $product){
+             $product=$this->getS3Url($product, $this->bucket);
+         }
 
         return $this->render('product/index.html.twig',[
             'products'=>$products,
@@ -51,36 +65,41 @@ class ProductController extends AbstractController
     {
         $product=$this->entityManager->getRepository(Product::class)->findOneBySlug($slug);
         $products= $this->entityManager->getRepository(Product::class)->findByIsBest(true);
-
+        foreach ($products as $ind_product){
+            $ind_product=$this->getS3Url($ind_product, $this->bucket);
+        }
         if(!$product){
             return $this->redirectToRoute('products');
         }
-        $fileKey='images/'.$product->getSlug().'.jpg';
-        $s3 = new S3Client([
-            'version'  => '2006-03-01',
-            'region'   => 'eu-west-3',
-            'credentials' => array(
-                'key' => 'AKIAYGMLEEYLJBG6QGGC',
-                'secret'  => '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',
-            )
-        ]);
-        $bucket = 'boutique-fr-ng';
-//Get a command to GetObject
-        $cmd = $s3->getCommand('GetObject', [
-            'Bucket' => $bucket,
-            'Key'    => $fileKey
-        ]);
-
-//The period of availability
-        $request = $s3->createPresignedRequest($cmd, '+30 minutes');
-
-//Get the pre-signed URL
-        $signedUrl = (string) $request->getUri();
-
-        $product->s3Url=$signedUrl;
+        $product=$this->getS3Url($product, $bucket, $request);
         return $this->render('product/show.html.twig',[
             'product'=>$product,
             'products'=> $products
         ]);
+    }
+
+    /**
+     * @param $product
+     * @param $bucket
+     */
+    public function getS3Url($product, $bucket):
+    {
+        $fileKey = 'images/' . $product->getSlug() . '.jpg';
+
+
+//Get a command to GetObject
+        $cmd = $this->s3->getCommand('GetObject', [
+            'Bucket' => $bucket,
+            'Key' => $fileKey
+        ]);
+
+//The period of availability
+        $awsRequest = $this->s3->createPresignedRequest($cmd, '+30 minutes');
+
+//Get the pre-signed URL
+        $signedUrl = (string)$awsRequest->getUri();
+
+        $product->s3Url = $signedUrl;
+        return $product;
     }
 }
