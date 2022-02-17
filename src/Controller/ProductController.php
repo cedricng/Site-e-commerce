@@ -55,7 +55,7 @@ class ProductController extends AbstractController
         if(!$product){
             return $this->redirectToRoute('products');
         }
-        $fileKey='/images/'.$product->getSlug().'.jpg';
+        $fileKey=$product->getSlug().'.jpg';
         $s3 = new S3Client([
             'version'  => '2006-03-01',
             'region'   => 'eu-west-3',
@@ -64,7 +64,7 @@ class ProductController extends AbstractController
                 'secret'  => 'T3IKBZDlHNO1Y8kFRmdPh96jUTi2s56M2A7v8OyP',
             )
         ]);
-        $bucket = 'boutique-fr-ng';
+        $bucket = 'boutique-fr-ng/images';
 //Get a command to GetObject
         $cmd = $s3->getCommand('GetObject', [
             'Bucket' => $bucket,
