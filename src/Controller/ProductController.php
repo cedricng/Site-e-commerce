@@ -60,8 +60,8 @@ class ProductController extends AbstractController
             'version'  => '2006-03-01',
             'region'   => 'eu-west-3',
             'credentials' => array(
-                'key' => 'AKIAYGMLEEYLFRJ6HWOE',
-                'secret'  => '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',
+                'key' => 'AKIAYGMLEEYLJBG6QGGC',
+                'secret'  => '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',
             )
         ]);
         $bucket = 'boutique-fr-ng/images';
