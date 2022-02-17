@@ -56,6 +56,7 @@ class ProductController extends AbstractController
             return $this->redirectToRoute('products');
         }
         $fileKey=$product->getSlug().'.jpg';
+        dd($fileKey);
         $s3 = new S3Client([
             'version'  => '2006-03-01',
             'region'   => 'eu-west-3',
@@ -76,6 +77,7 @@ class ProductController extends AbstractController
 
 //Get the pre-signed URL
         $signedUrl = (string) $request->getUri();
+
         $product->s3Url=$signedUrl;
         return $this->render('product/show.html.twig',[
             'product'=>$product,
