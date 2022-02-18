@@ -21,7 +21,7 @@ class CartController extends AbstractController
     {
         $cartFull=$cart->getFull();
         foreach ($cartFull as $product){
-            dd($product[0]);
+            dd($product['product']);
             $product[0]=$this->s3->getS3Url($product[0]);
         }
 
