@@ -108,10 +108,13 @@ class OrderController extends AbstractController
 
 
             $this->entityManager->flush();
-
+            $cartFull=$cart->getFull();
+            foreach ($cartFull as $product){
+                $product['product']=$this->s3->getS3Url($product['product']);
+            }
 
             return $this->render('order/add.html.twig',[
-                'cart'=> $cart->getFull(),
+                'cart'=> $cartFull,
                 'carrier'=>$carriers,
                 'delivery'=>$delivery_content,
                 'reference' => $order->getReference()
