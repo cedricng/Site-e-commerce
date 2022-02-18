@@ -33,9 +33,12 @@ class HomeController extends AbstractController
         foreach ($products as $product){
             $product=$this->s3->getS3Url($product);
         }
+        $featurettes=$this->s3->getFeaturettesUrl();
         return $this->render('home/index.html.twig',[
             'products'=>$products,
-            'headers' => $headers
+            'headers' => $headers,
+            'featurette1' => $featurettes[0],
+            'featurette2' => $featurettes[1]
         ]);
     }
 }

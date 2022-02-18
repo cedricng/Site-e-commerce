@@ -62,4 +62,30 @@ class AWSS3
         $header->s3Url = $signedUrl;
         return $header;
     }
+
+    public function getFeaturettesUrl()
+    {
+        $fileKey1 = 'featurettes/first.jpg';
+        $fileKey2 = 'featurettes/second.jpg';
+
+//Get a command to GetObject
+        $cmd1 = $this->s3->getCommand('GetObject', [
+            'Bucket' => $this->bucket,
+            'Key' => $fileKey1
+        ]);
+        $cmd2 = $this->s3->getCommand('GetObject', [
+            'Bucket' => $this->bucket,
+            'Key' => $fileKey2
+        ]);
+
+//The period of availability
+        $awsRequest1 = $this->s3->createPresignedRequest($cmd1, '+30 minutes');
+        $awsRequest2 = $this->s3->createPresignedRequest($cmd2, '+30 minutes');
+
+//Get the pre-signed URL
+        $signedUrl1 = (string)$awsRequest1->getUri();
+        $signedUrl2 = (string)$awsRequest2->getUri();
+
+        return [$signedUrl1,$signedUrl2];
+    }
 }
