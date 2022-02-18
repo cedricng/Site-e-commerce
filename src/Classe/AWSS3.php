@@ -59,7 +59,6 @@ class AWSS3
 
 //Get the pre-signed URL
         $signedUrl = (string)$awsRequest->getUri();
-        dd($signedUrl);
         $header->s3Url = $signedUrl;
         return $header;
     }
