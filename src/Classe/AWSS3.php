@@ -43,4 +43,24 @@ class AWSS3
         $product->s3Url = $signedUrl;
         return $product;
     }
+    public function getHeaderUrl($header,$key)
+    {
+        $fileKey = 'headers/' .$key. '.jpg';
+
+
+//Get a command to GetObject
+        $cmd = $this->s3->getCommand('GetObject', [
+            'Bucket' => $this->bucket,
+            'Key' => $fileKey
+        ]);
+
+//The period of availability
+        $awsRequest = $this->s3->createPresignedRequest($cmd, '+30 minutes');
+
+//Get the pre-signed URL
+        $signedUrl = (string)$awsRequest->getUri();
+
+        $header->s3Url = $signedUrl;
+        return $header;
+    }
 }
