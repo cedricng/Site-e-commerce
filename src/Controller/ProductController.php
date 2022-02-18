@@ -20,7 +20,6 @@ class ProductController extends AbstractController
 
     private $entityManager;
     private $s3;
-    //private $bucket;
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager=$entityManager;
@@ -73,24 +72,5 @@ class ProductController extends AbstractController
     }
 
 
-   /* public function getS3Url($product, $bucket)
-    {
-        $fileKey = 'images/' . $product->getSlug() . '.jpg';
 
-
-//Get a command to GetObject
-        $cmd = $this->s3->getCommand('GetObject', [
-            'Bucket' => $bucket,
-            'Key' => $fileKey
-        ]);
-
-//The period of availability
-        $awsRequest = $this->s3->createPresignedRequest($cmd, '+30 minutes');
-
-//Get the pre-signed URL
-        $signedUrl = (string)$awsRequest->getUri();
-
-        $product->s3Url = $signedUrl;
-        return $product;
-    }*/
 }
