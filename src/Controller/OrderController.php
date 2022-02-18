@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classe\AWSS3;
 use App\Classe\Cart;
 use App\Entity\Order;
 use App\Entity\OrderDetails;
@@ -19,9 +20,14 @@ class OrderController extends AbstractController
 {
 
     private $entityManager;
+    /**
+     * @var AWSS3
+     */
+    private $s3;
 
     public function __construct(EntityManagerInterface $entityManager){
         $this->entityManager=$entityManager;
+        $this->s3=new AWSS3();
     }
     /**
      * @Route("/commande", name="order")
@@ -34,10 +40,14 @@ class OrderController extends AbstractController
         $form=$this->createForm(OrderType::class,null,[
             'user'=> $this->getUser()
         ]);
+        $cartFull=$cart->getFull();
+        foreach ($cartFull as $product){
+            $product['product']=$this->s3->getS3Url($product['product']);
+        }
 
         return $this->render('order/index.html.twig',[
             'form'=> $form->createView(),
-            'cart'=> $cart->getFull()
+            'cart'=> $cartFull
         ]);
     }
 
