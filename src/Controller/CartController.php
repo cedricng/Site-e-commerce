@@ -25,7 +25,7 @@ class CartController extends AbstractController
         }
 
         return $this->render('cart/index.html.twig',[
-            'cart'=> $cartFull()
+            'cart'=> $cartFull
         ]);
     }
 
