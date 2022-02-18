@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classe\AWSS3;
 use App\Classe\Search;
 use App\Entity\Product;
 use App\Form\SearchType;
@@ -19,19 +20,11 @@ class ProductController extends AbstractController
 
     private $entityManager;
     private $s3;
-    private $bucket;
+    //private $bucket;
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager=$entityManager;
-        $this->s3 = new S3Client([
-            'version'  => '2006-03-01',
-            'region'   => 'eu-west-3',
-            'credentials' => array(
-                'key' => 'AKIAYGMLEEYLJBG6QGGC',
-                'secret'  => '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',
-            )
-        ]);
-        $this->bucket = 'boutique-fr-ng';
+        $this->s3 = new AWSS3();
     }
     /**
      * @Route("/nos-produits", name="products")
@@ -51,7 +44,7 @@ class ProductController extends AbstractController
 
          }
          foreach ($products as $product){
-             $product=$this->getS3Url($product, $this->bucket);
+             $product=$this->s3->getS3Url($product);
          }
 
         return $this->render('product/index.html.twig',[
@@ -67,12 +60,12 @@ class ProductController extends AbstractController
         $product=$this->entityManager->getRepository(Product::class)->findOneBySlug($slug);
         $products= $this->entityManager->getRepository(Product::class)->findByIsBest(true);
         foreach ($products as $ind_product){
-            $ind_product=$this->getS3Url($ind_product, $this->bucket);
+            $ind_product=$this->s3->getS3Url($ind_product);
         }
         if(!$product){
             return $this->redirectToRoute('products');
         }
-        $product=$this->getS3Url($product, $this->bucket);
+        $product=$this->s3->getS3Url($product);
         return $this->render('product/show.html.twig',[
             'product'=>$product,
             'products'=> $products
@@ -80,7 +73,7 @@ class ProductController extends AbstractController
     }
 
 
-    public function getS3Url($product, $bucket)
+   /* public function getS3Url($product, $bucket)
     {
         $fileKey = 'images/' . $product->getSlug() . '.jpg';
 
@@ -99,5 +92,5 @@ class ProductController extends AbstractController
 
         $product->s3Url = $signedUrl;
         return $product;
-    }
+    }*/
 }
