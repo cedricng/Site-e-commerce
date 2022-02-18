@@ -5,7 +5,8 @@
 {% block content%}
 <div class="row">
     <div class="col-md-5">
-        <img src="/uploads/{{ product.illustration }}" alt="{{ product.name}}" class="img-fluid">
+        <img {% if product.s3Url %}src="{{ product.s3Url }}"
+             {% else %}src="/uploads/{{ product.illustration }}"{% endif %} alt="{{ product.name}}" class="img-fluid">
     </div>
     <div class="col-md-7 my-auto">
         <h3>{{ product.name }}</h3>
