@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Classe;
+use Aws\S3\S3Client;
 
 class AWSS3
 {
     private $s3;
     private $bucket;
-    use Aws\S3\S3Client;
+
 
     public function __construct()
     {
