@@ -28,7 +28,6 @@ class HomeController extends AbstractController
         $products= $this->entityManager->getRepository(Product::class)->findByIsBest(true);
         $headers =$this->entityManager->getRepository(Header::class)->findAll();
         foreach($headers as $key=>$header){
-            dd(key+1);
             $product=$this->s3->getHeaderUrl($header,$key+1);
         }
         foreach ($products as $product){
