@@ -6,21 +6,20 @@
 <h1>Mon compte</h1>
     Bienvenue {{ app.user.firstname }} dans vos comptes.<br/> Vous pouvez accéder à toutes vos informations personnelles dans cet espace.
     <hr/>
-    - <a href="{{ path('account_password') }}"> Modifier mon mot de passe</a><br/>
-    - <a href="{{ path('account_address') }}">Gérer mes adresses</a><br/>
-    - <a href="{{ path('account_order') }}">Mes commandes</a><br/>
+
     <div class="row">
         <div class="col-md-4">
             <div class="account-item text-center">
                 <img src="{{ asset('assets/img/padlock.png') }}" alt="Modifier mon mot de passe"/><br/>
                 <a href="{{ path('account_password') }}"> Modifier mon mot de passe</a>
             </div>
-        </div><div class="col-md-4">
+        </div>
+        <div class="col-md-4">
             <div class="account-item text-center">
                 <img src="{{ asset('assets/img/address-book.png') }}" alt="Gérer mes adresses"/><br/>
                 <a href="{{ path('account_address') }}">Gérer mes adresses</a>
             </div>
-        </div><div class="col-md-4"></div>
+        </div>
         <div class="col-md-4">
             <div class="account-item text-center">
                 <img src="{{ asset('assets/img/shopping-bag.png') }}" alt="Mes commandes"/><br/>
