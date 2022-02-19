@@ -85,3 +85,7 @@ body{
     text-decoration: none;
 
 }
+
+.account-item img{
+    width:50px;
+}
