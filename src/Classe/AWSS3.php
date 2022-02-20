@@ -16,8 +16,8 @@ class AWSS3
             'version'  => '2006-03-01',
             'region'   => 'eu-west-3',
             'credentials' => array(
-                'key' => 'AKIAYGMLEEYLJBG6QGGC',
-                'secret'  => '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',
+                'key' => '',
+                'secret'  => '',
             )
         ]);
         $this->bucket = 'boutique-fr-ng';
