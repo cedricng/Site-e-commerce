@@ -1,8 +1,16 @@
-# Site-e-commerce
+# Site E-commerce
 
-Ceci est une application web écrite en PHP présentant différentes fonctionnalités d'un site de ventes en lignes:
-* Créer un compte client et se connecter
-* consulter et filtrer les différents produits disponibles
-* Ajouter les produits au panier et passer commande
-* Payer la commande par carte
+
+## Présentation
+
+###### Ceci est un projet de site e-commerce montrant plusieurs fonctionnalités.  
+
+- Ajout et retrait de produits à un panier
+- Enregistrement et validation d'une commande
+- Paiement de commandes par carte bancaire
+- Envoi de mails automatique
+
+## Demo
+
+http://floating-savannah-98678.herokuapp.com/
 
